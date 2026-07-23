@@ -1,0 +1,85 @@
+
+/* ── Design Canvas globals ──────────────────────────────────────────────
+ * The rules in this file fall into two groups:
+ *  1. ENGINE CSS (keep as-is): frame containment, viewport-unit remap,
+ *     dynamic-type stress test, editing affordances, dark-mode doctrine.
+ *  2. DEMO BRAND CSS (replace freely): fonts and small utilities used by
+ *     the demo app under client/src/surfaces/.
+ */
+
+/*
+ * Frame containment: screens often use `position: fixed` chrome and
+ * 100vh sizing. `contain: layout paint` + a transform on the scroll host
+ * makes fixed elements anchor to the frame, and the CSS below remaps
+ * viewport units so each frame behaves like a real device.
+ */
+.fd-screen-scroll {
+  contain: layout style paint;
+  transform: translateZ(0); /* establishes containing block for position:fixed */
+  container-type: size;
+  scrollbar-width: none;
+}
+.fd-screen-scroll::-webkit-scrollbar { display: none; }
+.fd-screen-scroll [style*="100vh"] { min-height: 100% !important; }
+
+/*
+ * Viewport-unit remap: if your screens use vw-based clamp() typography,
+ * `container-type: size` on .fd-screen-scroll makes cq units available.
+ * Add one rule per exact clamp() literal used in your surfaces so a
+ * phone-width frame reads as mobile. Demo app examples:
+ */
+.fd-screen-scroll [style*="clamp(40px, 9vw, 64px)"] { font-size: clamp(40px, 9cqw, 64px) !important; }
+.fd-screen-scroll [style*="clamp(26px, 6vw, 40px)"] { font-size: clamp(26px, 6cqw, 40px) !important; }
+.fd-screen-scroll [style*="clamp(22px, 5vw, 30px)"] { font-size: clamp(22px, 5cqw, 30px) !important; }
+
+/* Dynamic Type stress test: bump text sizes inside frames */
+.fd-dynamic-type .fd-screen-scroll p,
+.fd-dynamic-type .fd-screen-scroll span,
+.fd-dynamic-type .fd-screen-scroll a,
+.fd-dynamic-type .fd-screen-scroll button,
+.fd-dynamic-type .fd-screen-scroll label,
+.fd-dynamic-type .fd-screen-scroll h1,
+.fd-dynamic-type .fd-screen-scroll h2,
+.fd-dynamic-type .fd-screen-scroll h3 {
+  font-size: 118% !important;
+  line-height: 1.35 !important;
+}
+
+/* Editing affordances — editor canvas frames only, hover only */
+.fd-editable [data-fd-id]:hover { outline: 1px dashed rgba(20, 101, 90, 0.4); outline-offset: 1px; }
+[contenteditable="plaintext-only"], [contenteditable="true"] {
+  outline: 2px solid #14655A !important;
+  outline-offset: 2px;
+  border-radius: 3px;
+  cursor: text;
+}
+
+body {
+  margin: 0;
+  background: #EDECE7;
+  color: #16161A;
+  font-family: 'Nunito', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Dark-mode artwork doctrine (two tiers) ─────────────────────────────────
+   The canvas Dark toggle applies `invert(0.92) hue-rotate(180deg)` to the
+   whole DeviceFrame — a cheap negative that instantly previews dark mode
+   for ink-on-paper UI. Two tiers of raster artwork:
+
+   Tier 1 — ILLUSTRATIONS INVERT WITH THE UI. Leave illustration/line-art
+   imgs untagged; the inverted artwork often IS an acceptable dark-mode
+   treatment (judge per asset).
+
+   Tier 2 — PHOTOS COUNTER-INVERT. Human faces and photographic content
+   are unusable as negatives, so photo rasters carry className="fd-artwork";
+   the rule below re-applies the frame filter so the double inversion
+   restores (near-)true color. invert(0.92) twice ≈ original with a slight
+   luminance lift; a gentle saturation trim keeps photos from glowing, and
+   the soft halo seats them on the dark ground.
+
+   Wordmark SVGs stay untagged so an ink mark inverts to white. */
+[data-fd-dark="true"] img.fd-artwork {
+  filter: invert(0.92) hue-rotate(180deg) brightness(1.04) saturate(0.94)
+    drop-shadow(0 0 24px rgba(255, 255, 255, 0.10));
+}

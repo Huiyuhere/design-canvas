@@ -1,0 +1,196 @@
+{
+  "$schema": "./surface-inventory.schema.json",
+  "project": "Wavelength",
+  "surfaces": [
+    {
+      "id": "landing",
+      "workspace": "growth",
+      "type": "screen",
+      "name": "Landing",
+      "route": "/",
+      "section": "Acquisition",
+      "sourceFile": "client/src/surfaces/Landing.tsx",
+      "codeRefs": { "web": "src/pages/Landing.tsx", "ios": "App/Features/Landing/LandingView.swift" },
+      "nav": [
+        { "trigger": "GET STARTED", "to": "auth" },
+        { "trigger": "SIGN IN", "to": "auth-signin" }
+      ]
+    },
+    {
+      "id": "auth",
+      "workspace": "growth",
+      "type": "screen",
+      "name": "Create Account",
+      "route": "/auth?mode=signup",
+      "section": "Acquisition",
+      "sourceFile": "client/src/surfaces/Auth.tsx",
+      "codeRefs": { "web": "src/pages/Auth.tsx", "ios": "App/Features/Auth/AuthView.swift" },
+      "nav": [
+        { "trigger": "CONTINUE", "to": "onboarding-name" },
+        { "trigger": "Sign in instead", "to": "auth-signin" }
+      ]
+    },
+    {
+      "id": "auth-signin",
+      "workspace": "growth",
+      "type": "screen-state",
+      "name": "Sign In",
+      "route": "/auth?mode=signin",
+      "section": "Acquisition",
+      "parent": "auth",
+      "state": { "mode": "signin" },
+      "sourceFile": "client/src/surfaces/Auth.tsx",
+      "codeRefs": { "web": "src/pages/Auth.tsx", "ios": "App/Features/Auth/AuthView.swift" },
+      "nav": [
+        { "trigger": "CONTINUE", "to": "home" },
+        { "trigger": "Create one", "to": "auth" }
+      ]
+    },
+    {
+      "id": "onboarding-name",
+      "workspace": "onboarding",
+      "type": "screen",
+      "name": "Onboarding · Name",
+      "route": "/onboarding?step=name",
+      "section": "First-run",
+      "sourceFile": "client/src/surfaces/Onboarding.tsx",
+      "codeRefs": { "web": "src/pages/Onboarding.tsx", "ios": "App/Features/Onboarding/OnboardingView.swift" },
+      "nav": [{ "trigger": "NEXT", "to": "onboarding-frequency" }]
+    },
+    {
+      "id": "onboarding-frequency",
+      "workspace": "onboarding",
+      "type": "screen-state",
+      "name": "Onboarding · Frequency",
+      "route": "/onboarding?step=frequency",
+      "section": "First-run",
+      "parent": "onboarding-name",
+      "state": { "step": "frequency" },
+      "sourceFile": "client/src/surfaces/Onboarding.tsx",
+      "codeRefs": { "web": "src/pages/Onboarding.tsx", "ios": "App/Features/Onboarding/OnboardingView.swift" },
+      "nav": [{ "trigger": "NEXT", "to": "onboarding-quiet" }]
+    },
+    {
+      "id": "onboarding-quiet",
+      "workspace": "onboarding",
+      "type": "screen-state",
+      "name": "Onboarding · Quiet Hours",
+      "route": "/onboarding?step=quiet",
+      "section": "First-run",
+      "parent": "onboarding-name",
+      "state": { "step": "quiet" },
+      "sourceFile": "client/src/surfaces/Onboarding.tsx",
+      "codeRefs": { "web": "src/pages/Onboarding.tsx", "ios": "App/Features/Onboarding/OnboardingView.swift" },
+      "nav": [{ "trigger": "FINISH", "to": "home" }]
+    },
+    {
+      "id": "home",
+      "workspace": "core",
+      "type": "screen",
+      "name": "Today",
+      "route": "/home",
+      "section": "Everyday loop",
+      "sourceFile": "client/src/surfaces/Home.tsx",
+      "codeRefs": { "web": "src/pages/Home.tsx", "ios": "App/Features/Home/HomeView.swift" },
+      "nav": [
+        { "trigger": "tap circle card", "to": "circle-detail" },
+        { "trigger": "COMPOSE", "to": "compose-overlay" },
+        { "trigger": "settings icon", "to": "settings" }
+      ]
+    },
+    {
+      "id": "home-empty",
+      "workspace": "core",
+      "type": "screen-state",
+      "name": "Today · Empty",
+      "route": "/home?state=empty",
+      "section": "Everyday loop",
+      "parent": "home",
+      "state": { "empty": true },
+      "conditional": "No signals received today",
+      "sourceFile": "client/src/surfaces/Home.tsx",
+      "codeRefs": { "web": "src/pages/Home.tsx", "ios": "App/Features/Home/HomeView.swift" },
+      "nav": [{ "trigger": "COMPOSE", "to": "compose-overlay" }]
+    },
+    {
+      "id": "circle-detail",
+      "workspace": "core",
+      "type": "screen",
+      "name": "Circle Detail",
+      "route": "/circle/inner",
+      "section": "Everyday loop",
+      "sourceFile": "client/src/surfaces/CircleDetail.tsx",
+      "codeRefs": { "web": "src/pages/CircleDetail.tsx", "ios": "App/Features/Circle/CircleDetailView.swift" },
+      "nav": [
+        { "trigger": "back", "to": "home" },
+        { "trigger": "SEND A SIGNAL", "to": "compose-overlay" }
+      ]
+    },
+    {
+      "id": "compose-overlay",
+      "workspace": "core",
+      "type": "overlay",
+      "name": "Compose Signal",
+      "route": "/home#compose",
+      "section": "Everyday loop",
+      "parent": "home",
+      "sourceFile": "client/src/surfaces/Home.tsx",
+      "codeRefs": { "web": "src/pages/Home.tsx", "ios": "App/Features/Compose/ComposeSheet.swift" },
+      "nav": [
+        { "trigger": "SEND", "to": "toast:signal-sent" },
+        { "trigger": "cancel", "to": "home" }
+      ]
+    },
+    {
+      "id": "toast-signal-sent",
+      "workspace": "core",
+      "type": "toast",
+      "name": "Toast · Signal Sent",
+      "route": "/home",
+      "section": "Everyday loop",
+      "parent": "home",
+      "conditional": "After a signal is sent",
+      "sourceFile": "client/src/surfaces/Home.tsx",
+      "codeRefs": { "web": "src/pages/Home.tsx", "ios": "App/Features/Compose/ComposeSheet.swift" },
+      "nav": []
+    },
+    {
+      "id": "settings",
+      "workspace": "system",
+      "type": "screen",
+      "name": "Settings",
+      "route": "/settings",
+      "section": "Account",
+      "sourceFile": "client/src/surfaces/Settings.tsx",
+      "codeRefs": { "web": "src/pages/Settings.tsx", "ios": "App/Features/Settings/SettingsView.swift" },
+      "nav": [
+        { "trigger": "back", "to": "home" },
+        { "trigger": "Sign out", "to": "landing" }
+      ]
+    },
+    {
+      "id": "settings-delete",
+      "workspace": "system",
+      "type": "overlay",
+      "name": "Delete Account Confirm",
+      "route": "/settings#delete",
+      "section": "Account",
+      "parent": "settings",
+      "conditional": "Tapping Delete account",
+      "sourceFile": "client/src/surfaces/Settings.tsx",
+      "codeRefs": { "web": "src/pages/Settings.tsx", "ios": "App/Features/Settings/SettingsView.swift" },
+      "nav": [{ "trigger": "KEEP MY ACCOUNT", "to": "settings" }]
+    },
+    {
+      "id": "not-found",
+      "workspace": "system",
+      "type": "screen",
+      "name": "Not Found",
+      "route": "/404",
+      "section": "Edge",
+      "sourceFile": "client/src/surfaces/AppNotFound.tsx",
+      "codeRefs": { "web": "src/pages/NotFound.tsx", "ios": "App/Features/System/NotFoundView.swift" },
+      "nav": [{ "trigger": "TAKE ME HOME", "to": "home" }]
+    }
+  ]
+}
