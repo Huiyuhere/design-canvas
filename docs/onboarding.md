@@ -2,6 +2,8 @@
 
 Goal: replace the Wavelength demo with your own product's screens. This guide is written to be handed directly to a coding agent ("read docs/onboarding.md and onboard the screens in ../my-app"), but works for humans too.
 
+Starting from an existing repository? Read [`repo-ingestion.md`](repo-ingestion.md) first — it covers reading the codebase, extracting all frontend surfaces, and segmenting them into workspaces; this document then details each registration step.
+
 ## Step 0 — Inventory your surfaces
 
 List every customer-facing surface: screens, meaningful screen-states (empty, error, loaded), overlays/sheets, and toasts. Group them into 3–8 stakeholder workspaces (e.g. Growth, Onboarding, Core, System). Decide per surface where the real code lives on each platform — those become `codeRefs`.

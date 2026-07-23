@@ -114,6 +114,7 @@ any mismatch. Agent playbook: [`skills/ios-conversion/SKILL.md`](skills/ios-conv
 ## Docs
 
 - [`docs/onboarding.md`](docs/onboarding.md) — port your own app's screens onto the canvas (agent-executable)
+- [`docs/repo-ingestion.md`](docs/repo-ingestion.md) — read an existing repo, pull out the frontend, segment into workspaces (agent-executable)
 - [`docs/export-format.md`](docs/export-format.md) — the change-log schema and Markdown export contract
 - [`docs/ios-workflow.md`](docs/ios-workflow.md) — driving a native SwiftUI codebase from canvas exports
 - [`skills/ios-conversion/SKILL.md`](skills/ios-conversion/SKILL.md) — agent skill: convert surfaces to SwiftUI and prove parity

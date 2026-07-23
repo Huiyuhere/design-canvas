@@ -68,6 +68,9 @@ pnpm test             # vitest — 101 tests must pass
 ### Change the brand / adopt a new product
 Edit `canvas.config.ts` only — tokens, fonts, banned vocabulary, workspaces, device frame, repo names. UI chrome, pickers, and lints all read from it. Global CSS brand rules (fonts, dark-mode doctrine) live in `client/src/index.css` under the "DEMO BRAND CSS" banner.
 
+### Ingest an existing repository onto the canvas
+Follow `docs/repo-ingestion.md`: (1) map the source repo's router, screens, design tokens, and copy sources; (2) vendor every customer-facing surface into `client/src/surfaces/` verbatim — strip data/auth/analytics logic, keep visual truth, wire `onNavigate`, set real `codeRefs`; (3) segment surfaces into 3–8 journey workspaces; (4) verify with the quality gates. Never invent copy or colors — extract them from the source.
+
 ### Modify editing behavior
 `CanvasStore` (in `store.tsx`) is the single mutation path: `applyOverride`, `insertElement`, `deleteElement`, `undoLast`, `redoLast`, `saveSession`. Every mutation must emit an entry that parses against `changeEntrySchema`. Tests in `server/undoRedo.test.ts` and `server/canvas.failures.test.ts` encode the guarantees — extend them with any new op.
 
