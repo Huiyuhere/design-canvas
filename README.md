@@ -109,6 +109,8 @@ any mismatch. Agent playbook: [`skills/ios-conversion/SKILL.md`](skills/ios-conv
 | `pnpm swift:parity` | Audit generated Swift against snapshots — exact font/color/size/placement/image parity |
 | `pnpm check:size` | Enforce the 600-line-per-file rule (keeps the repo agent-patchable) |
 
+**Enable CI (one step):** copy [`docs/ci.yml.example`](docs/ci.yml.example) to `.github/workflows/ci.yml` in your fork/template copy — it runs all four gates on every push and PR.
+
 ## Docs
 
 - [`docs/onboarding.md`](docs/onboarding.md) — port your own app's screens onto the canvas (agent-executable)
